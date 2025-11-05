@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toko Online - Ciko Store</title>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #6a00f4, #b100ff);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    text-align: center;
+    padding: 20px 10px;
+    background: rgba(0,0,0,0.3);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    padding: 20px;
+  }
+  .product {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .2s;
+  }
+  .product:hover { transform: scale(1.05); }
+  .product img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .product-name {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Popup */
+  .popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .popup-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .popup img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .popup h2 {
+    margin: 10px 0 6px;
+  }
+  .popup p {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  .whatsapp {
+    margin-top: 14px;
+    background: #25D366;
+    color: #fff;
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .close-btn {
+    margin-top: 12px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #ff006a;
+    color: white;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ciko Store</h1>
+  <p>Tempat belanja cepat & mudah</p>
+</header>
+
+<div class="container" id="productContainer">
+  <!-- Produk akan dimuat dari JS -->
+</div>
+
+<!-- Popup detail produk -->
+<div class="popup" id="popup">
+  <div class="popup-content" id="popupContent">
+    <img src="" alt="Produk" id="popupImg">
+    <h2 id="popupName"></h2>
+    <p id="popupDesc"></p>
+    <a href="#" id="popupWA" class="whatsapp" target="_blank">Hubungi Penjual</a><br>
+    <span class="close-btn" id="closePopup">Tutup</span>
+  </div>
+</div>
+
+<script>
+  const products = [
+    {
+      name: "Sepatu Sneakers Putih",
+      img: "https://files.catbox.moe/rn0tb5.jpg",
+      desc: "Sepatu keren dan nyaman, cocok untuk jalan santai maupun olahraga.",
+      wa: "6281234567890"
+    },
+    {
+      name: "Jam Tangan Elegan",
+      img: "https://images.unsplash.com/photo-1518552781929-5e8b67b1f03d?auto=format&fit=crop&w=600&q=80",
+      desc: "Jam tangan bergaya klasik dengan tali kulit asli dan tampilan premium.",
+      wa: "6289876543210"
+    },
+    {
+      name: "Kemeja Kasual Pria",
+      img: "https://images.unsplash.com/photo-1520975918313-7ae47b0f8b5c?auto=format&fit=crop&w=600&q=80",
+      desc: "Kemeja katun adem, cocok untuk kerja maupun hangout.",
+      wa: "6281122334455"
+    }
+  ];
+
+  const container = document.getElementById('productContainer');
+  const popup = document.getElementById('popup');
+  const popupImg = document.getElementById('popupImg');
+  const popupName = document.getElementById('popupName');
+  const popupDesc = document.getElementById('popupDesc');
+  const popupWA = document.getElementById('popupWA');
+  const closePopup = document.getElementById('closePopup');
+
+  products.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.name}">
+      <div class="product-name">${p.name}</div>
+    `;
+    div.onclick = () => {
+      popupImg.src = p.img;
+      popupName.textContent = p.name;
+      popupDesc.textContent = p.desc;
+      popupWA.href = `https://wa.me/${p.wa}?text=Halo, saya tertarik dengan produk ${p.name}`;
+      popup.style.display = 'flex';
+    };
+    container.appendChild(div);
+  });
+
+  closePopup.onclick = () => popup.style.display = 'none';
+  popup.onclick = e => { if(e.target === popup) popup.style.display = 'none'; };
+</script>
+
+</body>
+</html>
